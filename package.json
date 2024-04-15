@@ -1,0 +1,47 @@
+{
+  "name": "@safeheron/hardhat-safeheron",
+  "version": "1.0.0",
+  "description": "Hardhat plugin for integrating with Safeheron",
+  "repository": "github:safeheron/hardhat-safeheron",
+  "main": "lib/index.js",
+  "types": "lib/index.d.ts",
+  "scripts": {
+    "lint:style": "prettier --check --write \"src/**/*.ts\"",
+    "lint": "eslint --color --quiet --fix './src/**/*.ts'",
+    "lint:tsc": "tsc --noemit --project ./tsconfig.json",
+    "build": "rm -rf ./lib && tsc"
+  },
+  "files": [
+    "lib/",
+    "README.md"
+  ],
+  "keywords": [
+    "ethereum",
+    "smart-contracts",
+    "hardhat",
+    "hardhat-plugin",
+    "safeheron"
+  ],
+  "engines": {
+    "node": ">16 <=18.18"
+  },
+  "author": "xigaoku<xigaoku@gmail.com>",
+  "license": "MIT",
+  "homepage": "https://github.com/Safeheron/hardhat-safeheron",
+  "devDependencies": {
+    "@types/mocha": "^10.0.6",
+    "eslint": "^8.57.0",
+    "hardhat": "^2.22.2",
+    "prettier": "^3.2.5",
+    "typescript": "^5.4.5",
+    "typescript-eslint": "^7.7.0",
+    "uuid": "^9.0.1"
+  },
+  "peerDependencies": {
+    "hardhat": "^2.22.2"
+  },
+  "dependencies": {
+    "@safeheron/api-sdk": "^1.0.5",
+    "@types/uuid": "^9.0.8"
+  }
+}
