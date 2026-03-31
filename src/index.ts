@@ -55,20 +55,42 @@ export class SafeheronProvider extends ProviderWrapperWithChainId {
   private async createTransaction(args: RequestArguments): Promise<string> {
     const params = this._getParams(args);
     const tx = params[0];
+
+    let nonce: number;
+    if (tx.nonce !== undefined && tx.nonce !== null) {
+      nonce = parseInt(tx.nonce, 16);
+    } else {
+      const nonceHex = await this._wrappedProvider.request({
+        method: 'eth_getTransactionCount',
+        params: [this._web3WalletEVMAddress, 'pending'],
+      }) as string;
+      nonce = parseInt(nonceHex, 16);
+    }
+
+    const transaction: CreateWeb3EthSignTransactionRequest['transaction'] = {
+      value: BigInt(tx.value ?? '0x0').toString(),
+      chainId: await this._getChainId(),
+      gasLimit: parseInt(tx.gas, 16),
+      nonce,
+      data: tx.data,
+      to: tx.to,
+    }
+
+    if (tx.maxPriorityFeePerGas && tx.maxFeePerGas) {
+      Object.assign(transaction, {
+        maxPriorityFeePerGas: parseInt(tx.maxPriorityFeePerGas, 16).toString(),
+        maxFeePerGas: parseInt(tx.maxFeePerGas, 16).toString()
+      })
+    } else {
+      Object.assign(transaction, {
+        gasPrice: parseInt(tx.gasPrice, 16).toString(),
+      })
+    }
+
     const request: CreateWeb3EthSignTransactionRequest = {
       customerRefId: uuid(),
       accountKey: this._web3WalletAccountKey,
-      transaction: {
-        value: parseInt(tx.value, 16).toString(),
-        chainId: await this._getChainId(),
-        gasLimit: parseInt(tx.gas, 16),
-        maxPriorityFeePerGas: parseInt(tx.maxPriorityFeePerGas, 16).toString(),
-        maxFeePerGas: parseInt(tx.maxFeePerGas, 16).toString(),
-        gasPrice: parseInt(tx.gasPrice, 16).toString(),
-        nonce: parseInt(tx.nonce, 16),
-        data: tx.data,
-        to: tx.to,
-      },
+      transaction,
     };
     const createResult =
       await this._safeheronWeb3Api.createWeb3EthSignTransaction(request);
