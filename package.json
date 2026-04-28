@@ -40,7 +40,7 @@
     "hardhat": "^2.22.2"
   },
   "dependencies": {
-    "@safeheron/api-sdk": "^1.0.5",
+    "@safeheron/api-sdk": "^1.0.29",
     "uuid": "^9.0.1"
   }
 }
