@@ -6,7 +6,6 @@
 import * as dotenv from "dotenv";
 dotenv.config();
 
-import { HardhatUserConfig } from "hardhat/config";
 import "@nomicfoundation/hardhat-toolbox";
 import "@safeheron/hardhat-safeheron";
 
@@ -20,7 +19,7 @@ const {
   SEPOLIA_RPC_URL,
 } = process.env;
 
-const config: HardhatUserConfig = {
+const config = {
   solidity: "0.8.21",
   networks: {
     sepolia: {

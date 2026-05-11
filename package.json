@@ -1,6 +1,6 @@
 {
   "name": "@safeheron/hardhat-safeheron",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Hardhat plugin for integrating with Safeheron",
   "repository": "github:safeheron/hardhat-safeheron",
   "main": "lib/index.js",
